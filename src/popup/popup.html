@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AttentionLens</title>
+  </head>
+  <body>
+    <main class="popup">
+      <header class="header">
+        <p class="eyebrow">AttentionLens</p>
+        <h1>See how a webpage spends your attention.</h1>
+        <p class="scope">Local DOM scan only. Detection, scoring, and AI arrive in later days.</p>
+      </header>
+
+      <button id="analyze-button" class="analyze-button" type="button">Analyze this page</button>
+
+      <p id="status" class="status" role="status">Ready to scan the active tab.</p>
+
+      <section id="results" class="results" hidden>
+        <h2 id="page-title" class="page-title"></h2>
+        <p id="page-url" class="page-url"></p>
+
+        <dl class="metrics">
+          <div><dt>Links</dt><dd id="metric-links">0</dd></div>
+          <div><dt>Images</dt><dd id="metric-images">0</dd></div>
+          <div><dt>Buttons</dt><dd id="metric-buttons">0</dd></div>
+          <div><dt>Sticky</dt><dd id="metric-sticky">0</dd></div>
+          <div><dt>Fixed</dt><dd id="metric-fixed">0</dd></div>
+          <div><dt>Iframes</dt><dd id="metric-iframes">0</dd></div>
+        </dl>
+
+        <div class="lists">
+          <section>
+            <h3>Headings</h3>
+            <ul id="heading-list" class="chip-list"></ul>
+          </section>
+          <section>
+            <h3>CTA Text</h3>
+            <ul id="cta-list" class="chip-list"></ul>
+          </section>
+        </div>
+
+        <p id="block-summary" class="block-summary"></p>
+      </section>
+    </main>
+
+    <script type="module" src="./popup.ts"></script>
+  </body>
+</html>

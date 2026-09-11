@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "AttentionLens",
+  "description": "See how a webpage spends your attention.",
+  "version": "0.1.0",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "action": {
+    "default_title": "AttentionLens",
+    "default_popup": "src/popup/popup.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  }
+}
