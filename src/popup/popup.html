@@ -10,38 +10,80 @@
       <header class="header">
         <p class="eyebrow">AttentionLens</p>
         <h1>See how a webpage spends your attention.</h1>
-        <p class="scope">Local DOM scan only. Detection, scoring, and AI arrive in later days.</p>
+        <p class="scope">Local rules first. AI adds semantics, never the final score.</p>
       </header>
 
       <button id="analyze-button" class="analyze-button" type="button">Analyze this page</button>
 
-      <p id="status" class="status" role="status">Ready to scan the active tab.</p>
+      <p id="status" class="status" role="status">Ready to analyze the active tab.</p>
 
       <section id="results" class="results" hidden>
-        <h2 id="page-title" class="page-title"></h2>
-        <p id="page-url" class="page-url"></p>
-
-        <dl class="metrics">
-          <div><dt>Links</dt><dd id="metric-links">0</dd></div>
-          <div><dt>Images</dt><dd id="metric-images">0</dd></div>
-          <div><dt>Buttons</dt><dd id="metric-buttons">0</dd></div>
-          <div><dt>Sticky</dt><dd id="metric-sticky">0</dd></div>
-          <div><dt>Fixed</dt><dd id="metric-fixed">0</dd></div>
-          <div><dt>Iframes</dt><dd id="metric-iframes">0</dd></div>
-        </dl>
-
-        <div class="lists">
-          <section>
-            <h3>Headings</h3>
-            <ul id="heading-list" class="chip-list"></ul>
-          </section>
-          <section>
-            <h3>CTA Text</h3>
-            <ul id="cta-list" class="chip-list"></ul>
-          </section>
+        <div class="score-card">
+          <div class="score-value">
+            <span id="attention-cost">0</span>
+            <span class="score-total">/ 100</span>
+          </div>
+          <span id="severity" class="severity">LOW</span>
+          <p class="score-caption">Estimated Attention Cost</p>
         </div>
 
-        <p id="block-summary" class="block-summary"></p>
+        <section class="panel">
+          <h2>Why</h2>
+          <ul id="primary-reasons" class="reasons"></ul>
+        </section>
+
+        <section class="panel">
+          <h2>Breakdown</h2>
+          <ul id="detector-list" class="detectors"></ul>
+        </section>
+
+        <div class="actions">
+          <button id="inspect-button" class="secondary-button" type="button" disabled>Inspect page</button>
+          <button id="focus-button" class="secondary-button" type="button" disabled>Focus mode</button>
+          <button id="restore-button" class="secondary-button" type="button" disabled>Restore page</button>
+        </div>
+
+        <section class="panel">
+          <h2>AI explanation</h2>
+          <p id="ai-status" class="ai-status">
+            AI is off or no API key is saved. Open AI settings to add your own DeepSeek key.
+          </p>
+          <p id="ai-summary" class="ai-summary" hidden></p>
+          <ul id="ai-techniques" class="chip-list" hidden></ul>
+          <ul id="ai-blocks" class="ai-blocks" hidden></ul>
+          <button id="open-settings-button" class="secondary-button" type="button">
+            AI settings
+          </button>
+        </section>
+
+        <details class="panel details">
+          <summary>Page details</summary>
+          <h3 id="page-title" class="page-title"></h3>
+          <p id="page-url" class="page-url"></p>
+
+          <dl class="metrics">
+            <div><dt>Links</dt><dd id="metric-links">0</dd></div>
+            <div><dt>Images</dt><dd id="metric-images">0</dd></div>
+            <div><dt>Buttons</dt><dd id="metric-buttons">0</dd></div>
+            <div><dt>Sticky</dt><dd id="metric-sticky">0</dd></div>
+            <div><dt>Fixed</dt><dd id="metric-fixed">0</dd></div>
+            <div><dt>Iframes</dt><dd id="metric-iframes">0</dd></div>
+          </dl>
+
+          <div class="lists">
+            <section>
+              <h4>Headings</h4>
+              <ul id="heading-list" class="chip-list"></ul>
+            </section>
+            <section>
+              <h4>CTA Text</h4>
+              <ul id="cta-list" class="chip-list"></ul>
+            </section>
+          </div>
+
+          <p id="block-summary" class="block-summary"></p>
+        </details>
+
       </section>
     </main>
 

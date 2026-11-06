@@ -4,9 +4,14 @@
   "description": "See how a webpage spends your attention.",
   "version": "0.1.0",
   "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["https://api.deepseek.com/*"],
   "action": {
     "default_title": "AttentionLens",
     "default_popup": "src/popup/popup.html"
+  },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
   },
   "background": {
     "service_worker": "background.js",

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AttentionLens Settings</title>
+  </head>
+  <body>
+    <main class="options">
+      <header>
+        <p class="eyebrow">AttentionLens</p>
+        <h1>AI settings</h1>
+        <p class="intro">
+          AttentionLens works fully offline with local rules. Add your own DeepSeek API key to enable
+          semantic headline analysis, block classification, and natural-language explanations. The
+          key is stored only in this browser profile and is used only by the background worker.
+        </p>
+      </header>
+
+      <section class="card">
+        <label class="toggle">
+          <input id="ai-enabled" type="checkbox" />
+          <span>
+            <strong>Enable DeepSeek</strong>
+            <small>When off, analysis stays local and no network request is made.</small>
+          </span>
+        </label>
+      </section>
+
+      <section class="card">
+        <h2>API key</h2>
+
+        <div id="key-saved" class="key-saved" hidden>
+          <code id="key-mask"></code>
+          <div class="key-actions">
+            <button id="change-key-button" class="secondary" type="button">Change key</button>
+            <button id="clear-key-button" class="danger" type="button">Clear key</button>
+          </div>
+        </div>
+
+        <div id="key-entry" class="key-entry">
+          <label class="field">
+            <span>API key</span>
+            <input id="ai-api-key" type="password" autocomplete="off" placeholder="sk-..." />
+          </label>
+        </div>
+
+        <p class="hint">
+          Get a key from platform.deepseek.com → API keys. It is stored in
+          <code>chrome.storage.local</code> and is never sent to any server except the configured API
+          endpoint.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Endpoint</h2>
+        <label class="field">
+          <span>Model</span>
+          <input id="ai-model" type="text" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Base URL</span>
+          <input id="ai-base-url" type="text" autocomplete="off" />
+        </label>
+        <p class="hint">
+          Use the model id enabled for your account. A custom base URL on another host also needs to be
+          added to <code>host_permissions</code> in <code>manifest.json</code>.
+        </p>
+      </section>
+
+      <div class="actions">
+        <button id="save-button" class="primary" type="button">Save settings</button>
+        <button id="test-button" class="secondary" type="button">Test connection</button>
+      </div>
+
+      <p id="status" class="status" role="status"></p>
+    </main>
+
+    <script type="module" src="./options.ts"></script>
+  </body>
+</html>

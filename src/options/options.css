@@ -1,0 +1,188 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  color: #17202a;
+  background: #f4f6f8;
+}
+
+body {
+  margin: 0;
+}
+
+.options {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #0c7c86;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.intro {
+  margin: 12px 0 0;
+  color: #4d5c69;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.card {
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid #dfe5ea;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.card h2 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.toggle {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.toggle input {
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+}
+
+.toggle span {
+  display: grid;
+  gap: 3px;
+}
+
+.toggle small,
+.hint {
+  color: #6f7d8a;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.hint {
+  margin: 12px 0 0;
+}
+
+code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #eef3f5;
+  font-size: 12px;
+}
+
+.key-saved {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.key-saved code {
+  padding: 6px 10px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.key-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  color: #5c6b7a;
+  font-size: 12px;
+}
+
+.field input[type="text"],
+.field input[type="password"] {
+  padding: 9px 10px;
+  border: 1px solid #cfd8df;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.primary {
+  background: #0c7c86;
+  color: #fff;
+}
+
+.primary:hover:not(:disabled) {
+  background: #096a72;
+}
+
+.secondary {
+  border-color: #cfd8df;
+  background: #fff;
+  color: #17202a;
+}
+
+.secondary:hover:not(:disabled) {
+  background: #eef3f5;
+}
+
+.danger {
+  border-color: #e6b8b2;
+  background: #fff;
+  color: #9b2417;
+}
+
+.danger:hover:not(:disabled) {
+  background: #fdf1ef;
+}
+
+.status {
+  margin: 16px 0 0;
+  color: #5c6b7a;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.status.ok {
+  color: #10633a;
+}
+
+.status.error {
+  color: #9b2417;
+}

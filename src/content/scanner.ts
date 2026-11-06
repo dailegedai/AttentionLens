@@ -6,6 +6,8 @@ const MAX_HEADINGS = 20;
 const MAX_CTA_TEXTS = 20;
 const MIN_BLOCK_TEXT_LENGTH = 80;
 const MIN_BLOCK_AREA = 10_000;
+const MODAL_LIKE_SELECTOR =
+  'dialog, [role="dialog"], [aria-modal="true"], [class*="modal"], [class*="overlay"]';
 
 const CTA_PATTERN =
   /\b(subscribe|sign\s?up|free trial|start free|download|buy now|buy|join|register|get started|learn more|contact us|shop now|add to cart)\b|订阅|注册|下载|购买|立即|免费|加入|开始使用|了解更多|现在开始/i;
@@ -27,6 +29,7 @@ export function scanPage(doc: Document = document): PageFeatures {
 
   let stickyElements = 0;
   let fixedElements = 0;
+  let modalLikeElements = 0;
 
   const elements = Array.from(doc.body?.querySelectorAll<HTMLElement>("*") ?? []).slice(
     0,
@@ -37,6 +40,7 @@ export function scanPage(doc: Document = document): PageFeatures {
     const position = readPosition(element, doc);
     if (position === "sticky") stickyElements += 1;
     if (position === "fixed") fixedElements += 1;
+    if (element.matches(MODAL_LIKE_SELECTOR) && isVisible(element)) modalLikeElements += 1;
   }
 
   return {
@@ -52,6 +56,8 @@ export function scanPage(doc: Document = document): PageFeatures {
     stickyElements,
     fixedElements,
     iframes: doc.querySelectorAll("iframe").length,
+    iframeSources: collectIframeSources(doc),
+    modalLikeElements,
     headings: collectHeadings(doc),
     ctaTexts: collectCtaTexts(doc),
     candidateBlocks: collectCandidateBlocks(doc, viewport),
@@ -87,7 +93,7 @@ function collectCandidateBlocks(
   return uniqueElements([
     ...Array.from(
       doc.querySelectorAll<HTMLElement>(
-        'article, aside, section, main, nav, [role="complementary"], [role="navigation"], [role="banner"], [role="contentinfo"]',
+        'article, aside, section, main, nav, dialog, [role="dialog"], [aria-modal="true"], [role="complementary"], [role="navigation"], [role="banner"], [role="contentinfo"]',
       ),
     ),
     ...Array.from(doc.querySelectorAll<HTMLElement>("body > div, main > div, #content > div")).filter(
@@ -139,12 +145,14 @@ function toBlockFeature(
   if (buttonCount >= 2) signals.push("many_buttons");
   if (headingCount > 0 && linkDensity >= 0.3) signals.push("heading_with_links");
   if (CTA_PATTERN.test(text)) signals.push("cta_text");
+  if (element.matches(MODAL_LIKE_SELECTOR)) signals.push("modal_like");
   if (rect.width * rect.height >= viewportArea * 0.5) signals.push("large_block");
 
   return {
     id: `block-${index + 1}`,
     tag: element.tagName.toLowerCase(),
     selectorHint: buildSelectorHint(element),
+    domPath: buildDomPath(element),
     text: text.slice(0, 240),
     textLength: text.length,
     linkCount,
@@ -170,6 +178,15 @@ function readPosition(element: HTMLElement, doc: Document): PositionValue {
   return POSITION_VALUES.includes(raw as PositionValue) ? (raw as PositionValue) : "static";
 }
 
+function collectIframeSources(doc: Document): string[] {
+  const sources = Array.from(doc.querySelectorAll<HTMLIFrameElement>("iframe"))
+    .map((frame) => frame.src || frame.getAttribute("src") || "")
+    .filter(Boolean)
+    .map((source) => source.slice(0, 160));
+
+  return unique(sources).slice(0, 20);
+}
+
 function readControlText(element: HTMLElement): string {
   if (element instanceof HTMLInputElement) {
     return readText(null, element.value || element.getAttribute("aria-label") || "");
@@ -189,6 +206,30 @@ function buildSelectorHint(element: HTMLElement): string {
     .map((className) => `.${className}`)
     .join("");
   return `${element.tagName.toLowerCase()}${id}${classes}`;
+}
+
+function buildDomPath(element: HTMLElement): string {
+  const doc = element.ownerDocument;
+  const parts: string[] = [];
+  let current: HTMLElement | null = element;
+
+  while (current && current !== doc.body && parts.length < 8) {
+    const parent: HTMLElement | null = current.parentElement;
+    const tag = current.tagName.toLowerCase();
+
+    if (!parent) {
+      parts.unshift(tag);
+      break;
+    }
+
+    const siblings = Array.from(parent.children).filter(
+      (sibling) => sibling.tagName === current?.tagName,
+    );
+    parts.unshift(`${tag}:nth-of-type(${siblings.indexOf(current) + 1})`);
+    current = parent;
+  }
+
+  return ["body", ...parts].join(" > ");
 }
 
 function toRect(rect: DOMRect): Rect {

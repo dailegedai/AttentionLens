@@ -9,9 +9,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src", "vite.config.ts", "vite.content.config.ts"]
+  "include": ["src", "tests", "vite.config.ts", "vite.content.config.ts"]
 }
